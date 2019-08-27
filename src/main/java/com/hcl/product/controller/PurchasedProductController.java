@@ -29,6 +29,6 @@ public class PurchasedProductController {
 	public ResponseEntity<PurchasedDetailsDto> buyProduct(@RequestBody PurchasedProductDto buyProductDto){
 		LOGGER.debug("PurchasedProductController buyProduct()");
 		PurchasedDetailsDto productDetailsDto = purchasedProductService.buyProduct(buyProductDto);
-		return new ResponseEntity<PurchasedDetailsDto>(productDetailsDto,HttpStatus.CREATED);
+		return new ResponseEntity<>(productDetailsDto,HttpStatus.CREATED);
 	}
 }

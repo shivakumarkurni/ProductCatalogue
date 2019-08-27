@@ -20,14 +20,14 @@ import com.hcl.product.service.CategoryService;
 @CrossOrigin(origins = {"*","*/"},allowedHeaders = {"*","*/"})
 public class CategoryController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	
 	@Autowired
 	CategoryService categoryService;
 	
 	@GetMapping("/categories")
 	public ResponseEntity<List<CategoryDetailsDto>> categories(){
-		LOGGER.debug("CategoryController categories()");
+		logger.debug("CategoryController categories()");
 		List<CategoryDetailsDto> categoryDetailsDtos = categoryService.categories();
 		return new ResponseEntity<>(categoryDetailsDtos,HttpStatus.OK);
 	}
