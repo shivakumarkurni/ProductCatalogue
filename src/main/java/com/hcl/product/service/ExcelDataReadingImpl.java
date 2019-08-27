@@ -66,6 +66,7 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 	        	
 	        	categoryRepository.save(category);
 	        
+	        	
 	        	product.setCategoryId(category.getCategoryId());
 	        	
 	        	
