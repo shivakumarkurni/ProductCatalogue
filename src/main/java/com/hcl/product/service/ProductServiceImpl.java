@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDto> products(Integer categoryId) {
 		logger.info("ProductServiceImpl - categoryId:{} ", categoryId);
+
 		List<ProductDto> productList = new ArrayList<>();
 		List<Product> products = productRepository.findByCategoryId(categoryId);
 		for (Product product : products) {
