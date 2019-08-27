@@ -19,80 +19,87 @@ import com.hcl.product.entity.Product;
 import com.hcl.product.repository.CategoryRepository;
 import com.hcl.product.repository.ProductRepository;
 
-
-
 @Service
 public class ExcelDataReadingImpl implements ExcelDataReading {
 
-	 @Autowired CategoryRepository categoryRepository;
-	    @Autowired ProductRepository productRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
+	@Autowired
+	ProductRepository productRepository;
+
+	@Autowired
+	private FileStorageService fileStorageService;
 
 	@Override
 	public ResponseDto excelDataStoreToDatabase(MultipartFile reapExcelDataFile) throws IOException {
 
-		
-		  List<FileUploadExcelDto> tempStudentList = new ArrayList<>();
-          
-	        XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
-	        XSSFSheet worksheet = workbook.getSheetAt(0);
+		try {
+			fileStorageService.storeFile(reapExcelDataFile);
+		} catch (Exception e) {
+		}
 
-	        for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
-	        	FileUploadExcelDto fileUploadExcelDto = new FileUploadExcelDto();
+		List<FileUploadExcelDto> tempStudentList = new ArrayList<>();
 
-	            XSSFRow row = worksheet.getRow(i);
+		XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
+		XSSFSheet worksheet = workbook.getSheetAt(0);
 
-	            fileUploadExcelDto.setCateloge((row.getCell(0)).toString());
-	            fileUploadExcelDto.setProduct((row.getCell(1)).toString());
-	            fileUploadExcelDto.setDiscription(row.getCell(2).toString());
-	            fileUploadExcelDto.setCharge((row.getCell(3)).getNumericCellValue());
-	                tempStudentList.add(fileUploadExcelDto);   
-	        }
-	        
-	        // data updation to database
-	        
-//	        List<Category> categoryList=new ArrayList<>();
-//	        List<Product> productList=new ArrayList<>();
-	        
-	        for(FileUploadExcelDto fileupload :tempStudentList) {
-	        	
-	        	List<Category> categorys = categoryRepository.findByCategoryName(fileupload.getCateloge().trim().toUpperCase());
-	        	
-	        	Product product;
-	        	
-	        	if(categorys.isEmpty()) {
-	        		product=new Product();
-	        	Category category=new Category();
-	        	category.setCategoryName(fileupload.getCateloge().trim().toUpperCase());
-	        	
-	        	categoryRepository.save(category);
-	        
-	        	
-	        	product.setCategoryId(category.getCategoryId());
-	        	
-	        	
-	        	}else {
-	        		product=new Product();
-		        	product.setCategoryId(categorys.get(0).getCategoryId());
+		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+			FileUploadExcelDto fileUploadExcelDto = new FileUploadExcelDto();
 
-	        	}
-	        	
-	        	fileupload.getCharge();
-				product.setProductCharge(Double.valueOf(fileupload.getCharge()));
-	        	product.setProductDesc(fileupload.getDiscription());
-	        	product.setProductName(fileupload.getProduct());
-	        	
-	        	productRepository.save(product);
-	        	
-	        	
-	        }
-	        
-	        
-	        ResponseDto responseDto=new ResponseDto();
-	        responseDto.setMessage("succsessfully uploaded");
-	        responseDto.setStatusCode(HttpStatus.CREATED.value());
-			return responseDto;
-	        
-	        
+			XSSFRow row = worksheet.getRow(i);
+
+			fileUploadExcelDto.setCateloge((row.getCell(0)).toString());
+			fileUploadExcelDto.setProduct((row.getCell(1)).toString());
+			fileUploadExcelDto.setDiscription(row.getCell(2).toString());
+			fileUploadExcelDto.setCharge((row.getCell(3)).getNumericCellValue());
+			tempStudentList.add(fileUploadExcelDto);
+		}
+
+		// data updation to database
+
+		for (FileUploadExcelDto fileupload : tempStudentList) {
+
+			List<Category> categorys = categoryRepository
+					.findByCategoryName(fileupload.getCateloge().trim().toUpperCase());
+
+			Product product;
+
+			if (categorys.isEmpty()) {
+				product = new Product();
+				Category category = new Category();
+				category.setCategoryName(fileupload.getCateloge().trim().toUpperCase());
+
+				categoryRepository.save(category);
+				
+
+				product.setCategoryId(category.getCategoryId());
+
+			} else {
+				product = new Product();
+				
+				List<Product> products = productRepository.findByProductNameAndCategoryId(fileupload.getProduct(), categorys.get(0).getCategoryId());
+				product.setCategoryId(categorys.get(0).getCategoryId());
+
+				if(!products.isEmpty()) 
+					product.setProductId(products.get(0).getProductId());
+
+
+			}
+
+			fileupload.getCharge();
+			product.setProductCharge(fileupload.getCharge());
+			product.setProductDesc(fileupload.getDiscription());
+			product.setProductName(fileupload.getProduct());
+
+			productRepository.save(product);
+
+		}
+
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setMessage("succsessfully uploaded");
+		responseDto.setStatusCode(HttpStatus.CREATED.value());
+		return responseDto;
+
 	}
 
 }
