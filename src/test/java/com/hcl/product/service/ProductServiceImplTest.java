@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.hcl.product.dto.ProductDetailsDto;
 import com.hcl.product.dto.ProductDto;
 import com.hcl.product.entity.Product;
 import com.hcl.product.repository.CategoryRepository;
@@ -39,6 +40,8 @@ public class ProductServiceImplTest {
 	List<ProductDto> productList = null;
 	Product product = null;
 	List<Product> products = null;
+	ProductDetailsDto productDetailsDto = null;
+	List<ProductDetailsDto> productDetailList = null;
 
 	@Before
 	public void test() {
@@ -52,9 +55,18 @@ public class ProductServiceImplTest {
 		product = new Product();
 		product.setProductId(1);
 		product.setProductName("Fund Transfer");
+		product.setProductCharge(7491.28);
+		product.setProductDesc("Fund Transfer Pre Processing");
 		
 		products = new ArrayList<Product>();
 		products.add(product);
+		
+		productDetailsDto = new ProductDetailsDto();
+		productDetailsDto.setProductCharge(7491.28);
+		productDetailsDto.setProductDesc("Fund Transfer Pre Processing");
+		
+		productDetailList = new ArrayList<ProductDetailsDto>();
+		productDetailList.add(productDetailsDto);
 	}
 	
 	@Test
@@ -63,4 +75,12 @@ public class ProductServiceImplTest {
 		List<ProductDto> responseEntity = productService.products(Mockito.anyInt());
 		assertEquals(1, responseEntity.size());
 	}
+	
+	@Test
+	public void productDetailsTest() {
+		Mockito.when(productRepository.findByProductId(Mockito.anyInt())).thenReturn(product);
+		ProductDetailsDto responseEntity = productService.productDetails(Mockito.anyInt());
+		assertEquals(productDetailsDto.toString(), responseEntity.toString());
+	}
+	
 }
