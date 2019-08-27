@@ -1,6 +1,7 @@
 package com.hcl.product.service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,10 +13,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hcl.product.dto.PurchasedDetailsDto;
 import com.hcl.product.dto.PurchasedProductDto;
 import com.hcl.product.entity.PurchasedProduct;
 import com.hcl.product.repository.PurchasedProductRepository;
-import com.hcl.product.dto.PurchasedDetailsDto;
 
 @Service
 public class PurchasedProductServiceImpl implements PurchasedProductService {
@@ -29,34 +30,30 @@ public class PurchasedProductServiceImpl implements PurchasedProductService {
 		LOGGER.debug("PurchasedProductServiceImpl buyProduct()");
 		PurchasedDetailsDto purchasedDetailsDto = new PurchasedDetailsDto();
 		PurchasedProduct purchasedProduct = new PurchasedProduct();
-		List<PurchasedProduct> purchasedProducts = purchasedProductRepository.findAll();
+		List<PurchasedProduct> purcList = purchasedProductRepository
+				.findByMobileNoAndProductId(purchasedProductDto.getMobileNo(), purchasedProductDto.getProductId());
 
 		if (validPhoneNumber(purchasedProductDto.getMobileNo())) {
 			if (emailValidation(purchasedProductDto.getEmail())) {
-				for (PurchasedProduct purchasedProd : purchasedProducts) {
-					if (purchasedProd.getMobileNo().equals(purchasedProductDto.getMobileNo())
-							&& purchasedProd.getProductId().equals(purchasedProductDto.getProductId())) {
-						purchasedDetailsDto.setStatusCode(302);
-						purchasedDetailsDto.setMessage("Your Mobile No Already Registered with this Product..");
-					} 
-					
-					else if(!purchasedProd.getMobileNo().equals(purchasedProductDto.getMobileNo())
-							&& !purchasedProd.getProductId().equals(purchasedProductDto.getProductId())) {
-						BeanUtils.copyProperties(purchasedProductDto, purchasedProduct);
-						purchasedProduct.setPurchasedDate(LocalDate.now());
-						purchasedProduct.setStatus("BUYED");
-						purchasedProductRepository.save(purchasedProduct);
-						purchasedDetailsDto.setStatusCode(201);
-						purchasedDetailsDto.setMessage("Product Purchased Success...");
-					}
-				}
-			}
+				if (!purcList.isEmpty()) {
+					purchasedDetailsDto.setStatusCode(302);
+					purchasedDetailsDto.setMessage("Your Mobile No Already Registered with this Product..");
+				} else {
 
-			else {
+					BeanUtils.copyProperties(purchasedProductDto, purchasedProduct);
+					purchasedProduct.setPurchasedDate(LocalDate.now(ZoneId.systemDefault()));
+					purchasedProduct.setStatus("BUYED");
+					purchasedProductRepository.save(purchasedProduct);
+					purchasedDetailsDto.setStatusCode(201);
+					purchasedDetailsDto.setMessage("Product Purchased Success...");
+				}
+			} else {
 				purchasedDetailsDto.setStatusCode(406);
 				purchasedDetailsDto.setMessage("Enter Valid Format Email..");
 			}
-		} else {
+		} else
+
+		{
 			purchasedDetailsDto.setStatusCode(406);
 			purchasedDetailsDto.setMessage("Enter Valid Mobile No..");
 		}

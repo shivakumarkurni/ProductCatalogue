@@ -22,4 +22,6 @@ public interface PurchasedProductRepository extends JpaRepository<PurchasedProdu
 	public List<ProductAnalysisDTO> getByStatus(@Param("fromDate") LocalDate fromDate,
 			@Param("toDate") LocalDate toDate,@Param("status") String status);
 
+	public List<PurchasedProduct> findByMobileNoAndProductId(Long mobileNo,Integer productId);
+
 }
