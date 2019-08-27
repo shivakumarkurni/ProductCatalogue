@@ -27,16 +27,11 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 	@Autowired
 	ProductRepository productRepository;
 
-	@Autowired
-	private FileStorageService fileStorageService;
-
+	
 	@Override
 	public ResponseDto excelDataStoreToDatabase(MultipartFile reapExcelDataFile) throws IOException {
 
-		try {
-			fileStorageService.storeFile(reapExcelDataFile);
-		} catch (Exception e) {
-		}
+		
 
 		List<FileUploadExcelDto> tempStudentList = new ArrayList<>();
 
