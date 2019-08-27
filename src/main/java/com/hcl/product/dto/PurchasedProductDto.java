@@ -18,7 +18,7 @@ public class PurchasedProductDto implements Serializable{
 	private String name;
 	private LocalDate dob;
 	private String email;
-	private Long mobile;
+	private Long mobileNo;
 	private Double annualIncome;
 	private String gender;
 }
