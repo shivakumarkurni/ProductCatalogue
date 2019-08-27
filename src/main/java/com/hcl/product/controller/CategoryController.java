@@ -29,6 +29,6 @@ public class CategoryController {
 	public ResponseEntity<List<CategoryDetailsDto>> categories(){
 		LOGGER.debug("CategoryController categories()");
 		List<CategoryDetailsDto> categoryDetailsDtos = categoryService.categories();
-		return new ResponseEntity<List<CategoryDetailsDto>>(categoryDetailsDtos,HttpStatus.OK);
+		return new ResponseEntity<>(categoryDetailsDtos,HttpStatus.OK);
 	}
 }
