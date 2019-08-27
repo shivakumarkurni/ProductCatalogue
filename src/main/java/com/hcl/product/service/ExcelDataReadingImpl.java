@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,16 @@ import com.hcl.product.entity.Product;
 import com.hcl.product.repository.CategoryRepository;
 import com.hcl.product.repository.ProductRepository;
 
+
+/**
+ * 
+ * @author sairam
+ * 
+ * 
+ * import the uploaded data to database
+ * 
+ * */
+
 @Service
 public class ExcelDataReadingImpl implements ExcelDataReading {
 
@@ -28,11 +40,22 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 	ProductRepository productRepository;
 	
 	@Autowired ExcelDataReading excelDataReading;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
+	/**
+	 * 
+	 * @param multipart file
+	 * 
+	 * 
+	 * mutipart file to list conversion
+	 * 
+	 * */
 
 	@Override
 	public ResponseDto excelDataStoreToDatabase(MultipartFile reapExcelDataFile) throws IOException {
 
-		
+		LOGGER.info("excelDataStoreToDatabase");
 
 		List<FileUploadExcelDto> tempStudentList = new ArrayList<>();
 
@@ -50,16 +73,28 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 			fileUploadExcelDto.setCharge((row.getCell(3)).getNumericCellValue());
 			tempStudentList.add(fileUploadExcelDto);
 		}
+		LOGGER.info("excelDataStoreToDatabase completed");
 
 		
 		return excelDataReading.excelDataStoreToDatabase2(tempStudentList);
-
+ 
 	}
 	
 	
+	/**
+	 * 
+	 * @param list of data pojo files
+	 * 
+	 * 
+	 * list to data storing
+	 * 
+	 * */
+	 
 	@Override
 	public ResponseDto excelDataStoreToDatabase2(List<FileUploadExcelDto> tempStudentList)  {
 		// data updation to database
+
+		LOGGER.info("excelDataStoreToDatabase2");
 
 		
 				for (FileUploadExcelDto fileupload : tempStudentList) {
@@ -102,7 +137,12 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 				ResponseDto responseDto = new ResponseDto();
 				responseDto.setMessage("succsessfully uploaded");
 				responseDto.setStatusCode(HttpStatus.CREATED.value());
+				
+				LOGGER.info("excelDataStoreToDatabase2 completed");
+
 				return responseDto;
+				
+
 
 		
 	}

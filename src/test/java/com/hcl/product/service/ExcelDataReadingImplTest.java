@@ -95,7 +95,7 @@ public class ExcelDataReadingImplTest {
 	public void excelDataStoreToDatabaseTest3() throws IOException {
 		categories=new ArrayList<>();
 		categories.add(category);
-//		Mockito.when(categoryRepository.findByCategoryName(category.getCategoryName())).thenReturn(categories);
+		Mockito.when(categoryRepository.findByCategoryName(category.getCategoryName())).thenReturn(categories);
 		Mockito.when(productRepository.findByProductNameAndCategoryId(product.getProductName(), category.getCategoryId())).thenReturn(products);
 		Mockito.when(productRepository.save(product)).thenReturn(product);
 		Mockito.when(categoryRepository.save(category)).thenReturn(category);

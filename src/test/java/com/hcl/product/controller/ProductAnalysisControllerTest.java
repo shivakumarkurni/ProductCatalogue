@@ -1,6 +1,5 @@
 package com.hcl.product.controller;
 
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -22,6 +21,8 @@ public class ProductAnalysisControllerTest {
 	@Mock
 	ProductAnalysisServiceImpl productAnalysisServiceImpl;
 
+	
+	
 	@InjectMocks
 	ProductAnalysisController productAnalysisController;
 
@@ -32,11 +33,12 @@ public class ProductAnalysisControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(productAnalysisController).build();
 
 	}
-
+ 
 	@Test
 	public void testGetAnalysisReport() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/analysis/BUYED")
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.ALL)).andExpect(status().isOk());
 	}
-
+	
+	
 }
