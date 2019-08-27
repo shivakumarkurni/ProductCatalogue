@@ -34,13 +34,13 @@ public class ProductController {
 	
 	@GetMapping("/products/{categoryId}")
 	public ResponseEntity<List<ProductDto>> products(@PathVariable("categoryId") Integer categoryId) {
-		logger.info("ProductController :: categoryId :{} " , categoryId);
+		logger.info("ProductController - categoryId :{} " , categoryId);
 		return new ResponseEntity<>(productService.products(categoryId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/productdetails/{productId}")
 	public ResponseEntity<ProductDetailsDto> productDetails(@PathVariable("productId") Integer productId) {
-		logger.info("ProductController :: productDetails :{} " , productId);
+		logger.info("ProductController - productDetails :{} " , productId);
 		return new ResponseEntity<>(productService.productDetails(productId), HttpStatus.OK);
 	}
 
