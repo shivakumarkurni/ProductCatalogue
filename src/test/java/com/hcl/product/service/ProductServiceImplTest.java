@@ -58,7 +58,7 @@ public class ProductServiceImplTest {
 		product.setProductCharge(7491.28);
 		product.setProductDesc("Fund Transfer Pre Processing");
 		
-		products = new ArrayList<Product>();
+		products = new ArrayList<>();
 		products.add(product);
 		
 		productDetailsDto = new ProductDetailsDto();

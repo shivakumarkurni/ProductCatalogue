@@ -26,8 +26,9 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 	CategoryRepository categoryRepository;
 	@Autowired
 	ProductRepository productRepository;
-
 	
+	@Autowired ExcelDataReading excelDataReading;
+
 	@Override
 	public ResponseDto excelDataStoreToDatabase(MultipartFile reapExcelDataFile) throws IOException {
 
@@ -50,51 +51,63 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 			tempStudentList.add(fileUploadExcelDto);
 		}
 
-		// data updation to database
-
-		for (FileUploadExcelDto fileupload : tempStudentList) {
-
-			List<Category> categorys = categoryRepository
-					.findByCategoryName(fileupload.getCateloge().trim().toUpperCase());
-
-			Product product;
-
-			if (categorys.isEmpty()) {
-				product = new Product();
-				Category category = new Category();
-				category.setCategoryName(fileupload.getCateloge().trim().toUpperCase());
-
-				categoryRepository.save(category);
-				
-
-				product.setCategoryId(category.getCategoryId());
-
-			} else {
-				product = new Product();
-				
-				List<Product> products = productRepository.findByProductNameAndCategoryId(fileupload.getProduct(), categorys.get(0).getCategoryId());
-				product.setCategoryId(categorys.get(0).getCategoryId());
-
-				if(!products.isEmpty()) 
-					product.setProductId(products.get(0).getProductId());
-
-
-			}
-
-			fileupload.getCharge();
-			product.setProductCharge(fileupload.getCharge());
-			product.setProductDesc(fileupload.getDiscription());
-			product.setProductName(fileupload.getProduct());
-
-			productRepository.save(product);
-
-		}
-
-		ResponseDto responseDto = new ResponseDto();
-		responseDto.setMessage("succsessfully uploaded");
-		responseDto.setStatusCode(HttpStatus.CREATED.value());
-		return responseDto;
+		
+		return excelDataReading.excelDataStoreToDatabase2(tempStudentList);
 
 	}
+	
+	
+	@Override
+	public ResponseDto excelDataStoreToDatabase2(List<FileUploadExcelDto> tempStudentList)  {
+		// data updation to database
+
+		
+				for (FileUploadExcelDto fileupload : tempStudentList) {
+
+					List<Category> categorys = categoryRepository.findByCategoryName(fileupload.getCateloge().trim().toUpperCase());
+
+					Product product;
+
+					if (categorys.isEmpty()) {
+						product = new Product();
+						Category category = new Category();
+						category.setCategoryName(fileupload.getCateloge().trim().toUpperCase());
+
+						categoryRepository.save(category);
+						
+ 
+						product.setCategoryId(category.getCategoryId());
+
+					} else { 
+						product = new Product();
+						
+						List<Product> products = productRepository.findByProductNameAndCategoryId(fileupload.getProduct(), categorys.get(0).getCategoryId());
+						product.setCategoryId(categorys.get(0).getCategoryId());
+
+						if(!products.isEmpty()) 
+							product.setProductId(products.get(0).getProductId());
+
+
+					}
+
+					fileupload.getCharge();
+					product.setProductCharge(fileupload.getCharge());
+					product.setProductDesc(fileupload.getDiscription());
+					product.setProductName(fileupload.getProduct());
+
+					productRepository.save(product); 
+ 
+				}
+
+				ResponseDto responseDto = new ResponseDto();
+				responseDto.setMessage("succsessfully uploaded");
+				responseDto.setStatusCode(HttpStatus.CREATED.value());
+				return responseDto;
+
+		
+	}
+	
+	
+	
 
 }

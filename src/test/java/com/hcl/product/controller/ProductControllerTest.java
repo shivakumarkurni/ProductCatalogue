@@ -22,7 +22,7 @@ import com.hcl.product.service.ProductService;
 
 @RunWith(value = SpringJUnit4ClassRunner.class)
 public class ProductControllerTest {
-	
+	 
 	@Mock
 	ProductService productService;
 	
