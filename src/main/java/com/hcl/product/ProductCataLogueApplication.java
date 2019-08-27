@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import com.hcl.product.dto.FileStorageProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({
-    FileStorageProperties.class
-})
+@EnableConfigurationProperties({ FileStorageProperties.class })
 public class ProductCataLogueApplication {
 
 	public static void main(String[] args) {

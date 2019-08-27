@@ -76,7 +76,8 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 
 	        	}
 	        	
-	        	product.setProductCharge(fileupload.getCharge().intValue());
+	        	fileupload.getCharge();
+				product.setProductCharge(Double.valueOf(fileupload.getCharge()));
 	        	product.setProductDesc(fileupload.getDiscription());
 	        	product.setProductName(fileupload.getProduct());
 	        	
