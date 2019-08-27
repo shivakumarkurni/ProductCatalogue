@@ -2,6 +2,7 @@ package com.hcl.product.service;
 
 import java.util.List;
 
+import com.hcl.product.dto.ProductDetailsDto;
 import com.hcl.product.dto.ProductDto;
 
 /***
@@ -13,5 +14,7 @@ import com.hcl.product.dto.ProductDto;
 public interface ProductService {
 	
 	List<ProductDto> products(Integer categoryId);
+
+	ProductDetailsDto productDetails(Integer productId);
 
 }

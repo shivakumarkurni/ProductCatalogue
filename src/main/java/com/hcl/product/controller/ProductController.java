@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hcl.product.dto.ProductDetailsDto;
 import com.hcl.product.dto.ProductDto;
 import com.hcl.product.service.ProductService;
 
@@ -34,6 +35,13 @@ public class ProductController {
 		LOGGER.info("ProductController :: categoryId :{} " , categoryId);
 		List<ProductDto> productDtos = productService.products(categoryId);
 		return new ResponseEntity<>(productDtos, HttpStatus.OK);
+	}
+	
+	@GetMapping("/productdetails/{productId}")
+	public ResponseEntity<ProductDetailsDto> productDetails(@PathVariable("productId") Integer productId) {
+		LOGGER.info("ProductController :: productDetails :{} " , productId);
+		ProductDetailsDto productDetailsDto = productService.productDetails(productId);
+		return new ResponseEntity<>(productDetailsDto, HttpStatus.OK);
 	}
 
 }
