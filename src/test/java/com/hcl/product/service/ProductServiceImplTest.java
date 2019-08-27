@@ -53,7 +53,7 @@ public class ProductServiceImplTest {
 		product.setProductId(1);
 		product.setProductName("Fund Transfer");
 		
-		products = new ArrayList<Product>();
+		products = new ArrayList<>();
 		products.add(product);
 	}
 	
