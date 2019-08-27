@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hcl.product.dto.ProductDetailsDto;
 import com.hcl.product.dto.ProductDto;
 import com.hcl.product.entity.Product;
 import com.hcl.product.repository.CategoryRepository;
@@ -45,5 +46,14 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		return productList;
+	}
+
+	@Override
+	public ProductDetailsDto productDetails(Integer productId) {
+		LOGGER.info("ProductServiceImpl :: productDetails ", productId);
+		ProductDetailsDto productDetailsDto = new ProductDetailsDto();
+		Product product = productRepository.findByProductId(productId);
+		BeanUtils.copyProperties(product, productDetailsDto);
+		return productDetailsDto;
 	}
 }
