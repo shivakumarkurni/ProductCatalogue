@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	public List<CategoryDetailsDto> categories() {
 		LOGGER.debug("CategoryServiceImpl categories()");
-		List<CategoryDetailsDto> categoryDetailsDtos = new ArrayList<CategoryDetailsDto>();
+		List<CategoryDetailsDto> categoryDetailsDtos = new ArrayList<>();
 		List<Category> categories = categoryRepository.findAll();
 
 		for (Category category : categories) {

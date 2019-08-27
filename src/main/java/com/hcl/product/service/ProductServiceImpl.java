@@ -17,13 +17,13 @@ import com.hcl.product.repository.ProductRepository;
 
 /***
  * 
- * @author Anuradha
+ * @author Anuradha 
  *
  */
 @Service
 public class ProductServiceImpl implements ProductService {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Autowired
 	ProductRepository productRepository;
@@ -33,24 +33,20 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductDto> products(Integer categoryId) {
-		LOGGER.info("ProductServiceImpl :: categoryId ", categoryId);
-
+		logger.info("ProductServiceImpl - categoryId ", categoryId);
 		List<ProductDto> productList = new ArrayList<>();
-
 		List<Product> products = productRepository.findByCategoryId(categoryId);
-
 		for (Product product : products) {
 			ProductDto productDto = new ProductDto();
 			BeanUtils.copyProperties(product, productDto);
 			productList.add(productDto);
 		}
-
 		return productList;
 	}
 
 	@Override
 	public ProductDetailsDto productDetails(Integer productId) {
-		LOGGER.info("ProductServiceImpl :: productDetails ", productId);
+		logger.info("ProductServiceImpl - productDetails ", productId);
 		ProductDetailsDto productDetailsDto = new ProductDetailsDto();
 		Product product = productRepository.findByProductId(productId);
 		BeanUtils.copyProperties(product, productDetailsDto);

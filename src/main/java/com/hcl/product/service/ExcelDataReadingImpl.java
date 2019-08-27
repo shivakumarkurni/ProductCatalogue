@@ -29,11 +29,11 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 	
 	@Autowired ExcelDataReading excelDataReading;
 
-
 	@Override
 	public ResponseDto excelDataStoreToDatabase(MultipartFile reapExcelDataFile) throws IOException {
 
 		
+
 		List<FileUploadExcelDto> tempStudentList = new ArrayList<>();
 
 		XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
@@ -75,10 +75,10 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 
 						categoryRepository.save(category);
 						
-
+ 
 						product.setCategoryId(category.getCategoryId());
 
-					} else {
+					} else { 
 						product = new Product();
 						
 						List<Product> products = productRepository.findByProductNameAndCategoryId(fileupload.getProduct(), categorys.get(0).getCategoryId());
@@ -95,7 +95,7 @@ public class ExcelDataReadingImpl implements ExcelDataReading {
 					product.setProductDesc(fileupload.getDiscription());
 					product.setProductName(fileupload.getProduct());
 
-					productRepository.save(product);
+					productRepository.save(product); 
  
 				}
 
