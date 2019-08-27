@@ -10,6 +10,7 @@ import com.hcl.product.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
+	List<Product> findByProductNameAndCategoryId(String productName, Integer categoryId);
 	List<Product> findByCategoryId(Integer categoryId);
 
 	Product findByProductId(Integer productId);
