@@ -18,7 +18,7 @@ public class Product {
 	private Integer productId;
 	private String productName;
 	private String productDesc;
-	private Integer productCharge;
+	private Double productCharge;
 	private Integer categoryId;
 
 }
