@@ -68,17 +68,6 @@ public class PurchasedProductServiceImpl implements PurchasedProductService {
 		return (m.find() && m.group().equals(num));
 	}
 
-	static boolean validAge(LocalDate date1) {
-		boolean result = false;
-		int birthYear = date1.getYear();
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int age = year - birthYear;
-		if (age > 18) {
-			result = true;
-		}
-		return result;
-	}
-
 	static boolean emailValidation(String email) {
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return email.matches(regex);
