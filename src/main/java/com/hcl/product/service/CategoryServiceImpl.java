@@ -17,7 +17,7 @@ import com.hcl.product.repository.CategoryRepository;
 public class CategoryServiceImpl implements CategoryService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
-	
+	 
 	@Autowired
 	CategoryRepository categoryRepository;
 

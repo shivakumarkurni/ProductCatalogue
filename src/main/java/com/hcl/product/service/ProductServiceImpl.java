@@ -19,7 +19,7 @@ import com.hcl.product.repository.ProductRepository;
  * 
  * @author Anuradha 
  *
- */
+ */ 
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductDto> products(Integer categoryId) {
-		logger.info("ProductServiceImpl - categoryId ", categoryId);
+		logger.info("ProductServiceImpl - categoryId:{} ", categoryId);
 		List<ProductDto> productList = new ArrayList<>();
 		List<Product> products = productRepository.findByCategoryId(categoryId);
 		for (Product product : products) {
@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDetailsDto productDetails(Integer productId) {
-		logger.info("ProductServiceImpl - productDetails ", productId);
+		logger.info("ProductServiceImpl - productDetails productId:{} ", productId);
 		ProductDetailsDto productDetailsDto = new ProductDetailsDto();
 		Product product = productRepository.findByProductId(productId);
 		BeanUtils.copyProperties(product, productDetailsDto);
