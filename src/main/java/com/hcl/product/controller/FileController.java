@@ -1,4 +1,5 @@
 package com.hcl.product.controller;
+
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -14,31 +15,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hcl.product.dto.ResponseDto;
 import com.hcl.product.service.ExcelDataReading;
-import com.hcl.product.service.FileStorageService;
 
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 @RestController
 public class FileController {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-    
-   
-    @Autowired
-    private FileStorageService fileStorageService;
-    
-    @Autowired
-    ExcelDataReading excelDataReading;
-	
-    
-    @PostMapping("/products")
-    public ResponseEntity<ResponseDto> mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
-    	logger.info("FileController --> mapReapExcelDatatoDB ");
-    	
-    	
-        fileStorageService.storeFile(reapExcelDataFile);
-     return ResponseEntity.status(HttpStatus.CREATED).body(excelDataReading.excelDataStoreToDatabase(reapExcelDataFile));
+	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-        
-        
-    }
+	@Autowired
+	ExcelDataReading excelDataReading;
+
+	@PostMapping("/products")
+	public ResponseEntity<ResponseDto> mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile)
+			throws IOException {
+		logger.info("FileController --> mapReapExcelDatatoDB ");
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(excelDataReading.excelDataStoreToDatabase(reapExcelDataFile));
+
+	}
 }
